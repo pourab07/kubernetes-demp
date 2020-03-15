@@ -1,0 +1,29 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: myapp-service
+spec:
+  type: NodePort # Type of service we are creating
+  ports:
+    - targetPort: 80 # port on the pod/ backend port which accepts the traffic
+      port: 80 # Port of the K8S service expose
+      nodePort: 30008 # port for external world
+  selector:       # copy the labels defined in the pod definition to identify service will be created for which pod.
+    app: myapp
+    type: front-end
+
+# ClusterIP service
+
+apiVersion: v1
+kind: Service
+metadata:
+  name: back-end
+spec:
+  type: ClusterIP # Type of service we are creating
+  ports:
+    - targetPort: 80 # port on the pod/ backend port which accepts the traffic
+      port: 80 # Port of the K8S service expose
+
+  selector:       # copy the labels defined in the pod definition to identify service will be created for which pod.
+    app: myapp
+    type: front-end
